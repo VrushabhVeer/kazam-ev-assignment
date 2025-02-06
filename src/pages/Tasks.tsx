@@ -85,23 +85,23 @@ const Tasks = () => {
         <button
           onClick={prevPage}
           disabled={currentPage === 1}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-4 py-2 rounded-md text-sm font-medium ${
             currentPage === 1
               ? "bg-gray-300 cursor-not-allowed"
               : "bg-[#6261fd] text-white hover:bg-[#4a49cc]"
           }`}
         >
-          Previous
+          Prev
         </button>
 
-        <button className="px-4 py-2 rounded-md bg-[#6261fd] text-white cursor-default">
+        <button className="px-4 py-2 rounded-md text-sm font-medium bg-[#6261fd] text-white cursor-default">
           {currentPage}
         </button>
 
         <button
           onClick={nextPage}
           disabled={currentPage === Math.ceil(tasks.length / tasksPerPage)}
-          className={`px-4 py-2 rounded-md ${
+          className={`px-4 py-2 rounded-md text-sm font-medium ${
             currentPage === Math.ceil(tasks.length / tasksPerPage)
               ? "bg-gray-300 cursor-not-allowed"
               : "bg-[#6261fd] text-white hover:bg-[#4a49cc]"
