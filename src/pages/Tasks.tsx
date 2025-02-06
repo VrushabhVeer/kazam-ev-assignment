@@ -43,11 +43,24 @@ const Tasks = () => {
     fetchTasks();
   }, [fetchTasks]);
 
+  // Get current tasks
   const indexOfLastTask = currentPage * tasksPerPage;
   const indexOfFirstTask = indexOfLastTask - tasksPerPage;
   const currentTasks = tasks.slice(indexOfFirstTask, indexOfLastTask);
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+  // Go to next page
+  const nextPage = () => {
+    if (currentPage < Math.ceil(tasks.length / tasksPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Go to previous page
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className="w-11/12 md:w-8/12 lg:w-6/12 mx-auto mt-10">
@@ -67,23 +80,35 @@ const Tasks = () => {
         onEdit={handleEditTask}
       />
 
-      <div className="flex justify-center mt-4">
-        {Array.from(
-          { length: Math.ceil(tasks.length / tasksPerPage) },
-          (_, i) => (
-            <button
-              key={i + 1}
-              onClick={() => paginate(i + 1)}
-              className={`mx-1 px-3 py-1 rounded-md ${
-                currentPage === i + 1
-                  ? "bg-[#6261fd] text-white"
-                  : "bg-gray-200"
-              }`}
-            >
-              {i + 1}
-            </button>
-          )
-        )}
+      {/* Pagination */}
+      <div className="flex justify-center mt-4 space-x-2">
+        <button
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          className={`px-4 py-2 rounded-md ${
+            currentPage === 1
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-[#6261fd] text-white hover:bg-[#4a49cc]"
+          }`}
+        >
+          Previous
+        </button>
+
+        <button className="px-4 py-2 rounded-md bg-[#6261fd] text-white cursor-default">
+          {currentPage}
+        </button>
+
+        <button
+          onClick={nextPage}
+          disabled={currentPage === Math.ceil(tasks.length / tasksPerPage)}
+          className={`px-4 py-2 rounded-md ${
+            currentPage === Math.ceil(tasks.length / tasksPerPage)
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-[#6261fd] text-white hover:bg-[#4a49cc]"
+          }`}
+        >
+          Next
+        </button>
       </div>
 
       <Modal
