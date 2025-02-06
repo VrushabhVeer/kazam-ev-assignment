@@ -1,15 +1,42 @@
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Signup = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
+    const payload = {
+      name,
+      email,
+      password,
+    };
     e.preventDefault();
-    navigate("/login");
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/user/signup",
+        payload
+      );
+      console.log("response", response.data);
+      toast.success(response.data.message);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,8 +83,9 @@ const Signup = () => {
           <button
             type="submit"
             className="w-full p-2 bg-[#6261fd] text-white font-medium rounded-md"
+            disabled={loading} // Disable while loading
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
         <p className="text-sm text-center mt-4">

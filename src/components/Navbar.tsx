@@ -2,8 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  // const isAuthenticated = localStorage.getItem("token");
-  const isAuthenticated = true;
+  const isAuthenticated = localStorage.getItem("token");
 
   const handleLogout = () => {
     localStorage.removeItem("token");

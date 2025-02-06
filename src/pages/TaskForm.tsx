@@ -1,19 +1,47 @@
+import axios from "axios";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
-const TaskForm = () => {
+const TaskForm = ({
+  fetchTasks,
+  closeModal,
+}: {
+  fetchTasks: () => void;
+  closeModal: () => void;
+}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ title, description });
+    const token = localStorage.getItem("token");
+    const payload = {
+      title,
+      description,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/tasks/create",
+        payload,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      toast.success(response.data.message);
+
+      fetchTasks();
+      closeModal();
+    } catch {
+      toast.error("Error creating task");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <h2 className="text-xl font-bold mb-5">Create New Task</h2>
       <div>
-        <label className="block text-gray-600">Title</label>
+        <label className="block text-gray-600 font-medium">Title</label>
         <input
           type="text"
           value={title}
@@ -23,7 +51,7 @@ const TaskForm = () => {
         />
       </div>
       <div>
-        <label className="block text-gray-600">Description</label>
+        <label className="block text-gray-600 font-medium">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
