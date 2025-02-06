@@ -18,7 +18,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "https://kazam-ev-backend.vercel.app//user/login",
+        "https://kazam-ev-backend.vercel.app/user/login",
         payload
       );
       const { token, userId } = response.data;

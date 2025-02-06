@@ -33,7 +33,7 @@ const TaskList = ({
       if (!token) return console.error("No token found, please log in.");
 
       await axios.put(
-        `https://kazam-ev-backend.vercel.app//tasks/complete/${task._id}`,
+        `https://kazam-ev-backend.vercel.app/tasks/complete/${task._id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

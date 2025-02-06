@@ -20,7 +20,7 @@ const Signup = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://kazam-ev-backend.vercel.app//user/signup",
+        "https://kazam-ev-backend.vercel.app/user/signup",
         payload
       );
       toast.success(response.data.message);

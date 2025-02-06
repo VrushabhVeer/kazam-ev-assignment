@@ -26,7 +26,7 @@ const Tasks = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.get(
-        "https://kazam-ev-backend.vercel.app//tasks/mytasks",
+        "https://kazam-ev-backend.vercel.app/tasks/mytasks",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
