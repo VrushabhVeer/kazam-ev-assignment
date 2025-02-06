@@ -1,17 +1,30 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import TaskList from "./TaskList";
 import TaskForm from "./TaskForm";
 import Modal from "../components/Modal";
 import axios from "axios";
+interface Task {
+  _id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: string;
+}
 
 const Tasks = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  const fetchTasks = async () => {
+  const handleEditTask = (task: Task) => {
+    setSelectedTask(task);
+    setIsModalOpen(true);
+  };
+
+  const fetchTasks = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
-  
+
       const response = await axios.get("http://localhost:8000/tasks/mytasks", {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -19,11 +32,11 @@ const Tasks = () => {
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [fetchTasks]);
 
   return (
     <div className="w-11/12 md:w-8/12 lg:w-6/12 mx-auto mt-10">
@@ -37,10 +50,20 @@ const Tasks = () => {
         </button>
       </div>
 
-      <TaskList tasks={tasks}  fetchTasks={fetchTasks} />
+      <TaskList tasks={tasks} fetchTasks={fetchTasks} onEdit={handleEditTask} />
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <TaskForm fetchTasks={fetchTasks} closeModal={() => setIsModalOpen(false)} />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedTask(null);
+        }}
+      >
+        <TaskForm
+          fetchTasks={fetchTasks}
+          closeModal={() => setIsModalOpen(false)}
+          task={selectedTask}
+        />
       </Modal>
     </div>
   );

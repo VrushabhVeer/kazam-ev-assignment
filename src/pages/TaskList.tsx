@@ -2,10 +2,11 @@ import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/delete.png";
 import calendarIcon from "../assets/calendar.png";
 import checkedIcon from "../assets/checked.png";
-import cancelIcon from "../assets/cancel.png";
+import pendingIcon from "../assets/pending.png";
 import { useState } from "react";
 import Modal from "../components/Modal";
 import axios from "axios";
+import { toast } from "react-toastify";
 interface Task {
   _id: string;
   title: string;
@@ -17,12 +18,36 @@ interface Task {
 const TaskList = ({
   tasks,
   fetchTasks,
+  onEdit,
 }: {
   tasks: Task[];
   fetchTasks: () => void;
+  onEdit: (task: Task) => void;
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+
+  const handleMarkCompleted = async (task: Task) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return console.error("No token found, please log in.");
+
+      await axios.put(
+        `http://localhost:8000/tasks/complete/${task._id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (!task.completed) {
+        toast.warn(`Task "${task.title}" marked as incomplete.`);
+      } else {
+        toast.success(`Task "${task.title}" marked as completed.`);
+      }
+      
+      fetchTasks();
+    } catch (error) {
+      console.error("Error marking task as completed", error);
+    }
+  };
 
   const handleDeleteClick = (task: Task) => {
     setTaskToDelete(task);
@@ -39,13 +64,14 @@ const TaskList = ({
         return;
       }
 
-      await axios.delete(
+      const response = await axios.delete(
         `http://localhost:8000/tasks/delete/${taskToDelete._id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
+      toast.success(response.data.message);
       fetchTasks(); // Refresh the task list
       setIsDeleteModalOpen(false); // Close modal
       setTaskToDelete(null);
@@ -58,17 +84,15 @@ const TaskList = ({
     <div className="mt-10">
       {tasks.length === 0 ? (
         <div className="text-center mt-40">
-          <h1 className="text-2xl font-bold">
-            No tasks added yet
-          </h1>
+          <h1 className="text-2xl font-bold">No tasks added yet</h1>
           <p className="text-gray-600 mt-2">
             Start by adding a new task to keep track of your work.
           </p>
         </div>
       ) : (
-        tasks.map((task, index) => (
+        tasks.map((task) => (
           <div
-            key={index}
+            key={task._id}
             className="border mt-1 border-gray-100 py-3 px-5 shadow-sm rounded-md hover:shadow-lg bg-white"
           >
             <div>
@@ -77,7 +101,7 @@ const TaskList = ({
             </div>
 
             <div className="flex items-center justify-between mt-3">
-              <div className="flex items-ce space-x-2">
+              <div className="flex items-center space-x-2">
                 <img
                   className="w-5"
                   src={calendarIcon}
@@ -94,7 +118,7 @@ const TaskList = ({
                 </p>
               </div>
               <div className="flex items-center space-x-5">
-                <button>
+                <button onClick={() => onEdit(task)}>
                   <img
                     className="w-5"
                     src={editIcon}
@@ -110,10 +134,10 @@ const TaskList = ({
                     loading="lazy"
                   />
                 </button>
-                <button>
+                <button onClick={() => handleMarkCompleted(task)}>
                   <img
                     className="w-5"
-                    src={task.completed === true ? cancelIcon : checkedIcon}
+                    src={task.completed === true ? pendingIcon : checkedIcon}
                     alt="checked-icon"
                     loading="lazy"
                   />
