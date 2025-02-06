@@ -20,10 +20,9 @@ const Signup = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8000/user/signup",
+        "https://kazam-ev-backend.vercel.app//user/signup",
         payload
       );
-      console.log("response", response.data);
       toast.success(response.data.message);
       setTimeout(() => {
         navigate("/login");
@@ -83,7 +82,7 @@ const Signup = () => {
           <button
             type="submit"
             className="w-full p-2 bg-[#6261fd] text-white font-medium rounded-md"
-            disabled={loading} // Disable while loading
+            disabled={loading}
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>

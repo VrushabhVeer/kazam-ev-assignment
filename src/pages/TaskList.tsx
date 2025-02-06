@@ -33,7 +33,7 @@ const TaskList = ({
       if (!token) return console.error("No token found, please log in.");
 
       await axios.put(
-        `http://localhost:8000/tasks/complete/${task._id}`,
+        `https://kazam-ev-backend.vercel.app//tasks/complete/${task._id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -42,7 +42,7 @@ const TaskList = ({
       } else {
         toast.success(`Task "${task.title}" marked as completed.`);
       }
-      
+
       fetchTasks();
     } catch (error) {
       console.error("Error marking task as completed", error);
@@ -65,7 +65,7 @@ const TaskList = ({
       }
 
       const response = await axios.delete(
-        `http://localhost:8000/tasks/delete/${taskToDelete._id}`,
+        `https://kazam-ev-backend.vercel.app//tasks/delete/${taskToDelete._id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

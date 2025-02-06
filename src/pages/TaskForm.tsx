@@ -34,7 +34,7 @@ const TaskForm = ({ fetchTasks, closeModal, task }: TaskFormProps) => {
       if (task) {
         // Update task
         const response = await axios.put(
-          `http://localhost:8000/tasks/update/${task._id}`,
+          `https://kazam-ev-backend.vercel.app//tasks/update/${task._id}`,
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -42,7 +42,7 @@ const TaskForm = ({ fetchTasks, closeModal, task }: TaskFormProps) => {
       } else {
         // Create task
         const response = await axios.post(
-          "http://localhost:8000/tasks/create",
+          "https://kazam-ev-backend.vercel.app//tasks/create",
           payload,
           { headers: { Authorization: `Bearer ${token}` } }
         );
