@@ -68,7 +68,7 @@ const TaskForm = ({ fetchTasks, closeModal, task }: TaskFormProps) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md outline-none"
         />
       </div>
       <div>
@@ -77,7 +77,7 @@ const TaskForm = ({ fetchTasks, closeModal, task }: TaskFormProps) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          className="w-full p-2 border rounded-md"
+          className="w-full p-2 border rounded-md outline-none"
         ></textarea>
       </div>
       <button

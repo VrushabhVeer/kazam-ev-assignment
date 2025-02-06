@@ -34,13 +34,15 @@ const TaskList = ({
 
       await axios.put(
         `https://kazam-ev-backend.vercel.app/tasks/complete/${task._id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       if (!task.completed) {
-        toast.warn(`Task "${task.title}" marked as incomplete.`);
-      } else {
         toast.success(`Task "${task.title}" marked as completed.`);
+      } else {
+        toast.warn(`Task "${task.title}" marked as incomplete.`);
       }
 
       fetchTasks();

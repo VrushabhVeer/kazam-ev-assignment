@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -53,20 +54,27 @@ const Login = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md outline-none"
             />
           </div>
-          <div>
+          <div className="relative">
             <label className="block text-gray-600 text-sm font-medium">
               Password <span className="text-red-500">*</span>
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-2 border rounded-md"
+              className="w-full p-2 border rounded-md outline-none tracking-wider"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-0 right-3 top-5 pr-0 flex items-center text-sm leading-5"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
           </div>
           <button
             type="submit"
