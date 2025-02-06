@@ -65,7 +65,7 @@ const TaskList = ({
       }
 
       const response = await axios.delete(
-        `https://kazam-ev-backend.vercel.app//tasks/delete/${taskToDelete._id}`,
+        `https://kazam-ev-backend.vercel.app/tasks/delete/${taskToDelete._id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
