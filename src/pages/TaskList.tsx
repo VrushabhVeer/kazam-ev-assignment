@@ -137,7 +137,7 @@ const TaskList = ({
                 <button onClick={() => handleMarkCompleted(task)}>
                   <img
                     className="w-5"
-                    src={task.completed === true ? pendingIcon : checkedIcon}
+                    src={task.completed === false ? pendingIcon : checkedIcon}
                     alt="checked-icon"
                     loading="lazy"
                   />
