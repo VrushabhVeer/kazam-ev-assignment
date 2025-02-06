@@ -81,7 +81,7 @@ const TaskList = ({
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 pb-10">
       {tasks.length === 0 ? (
         <div className="text-center mt-40">
           <h1 className="text-2xl font-bold">No tasks added yet</h1>

@@ -20,10 +20,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <Link to="/" className="hover:underline">
-                All Tasks
-              </Link>
-              <Link to="/" className="hover:underline">
-                completed Tasks
+                My Tasks
               </Link>
               <button
                 onClick={handleLogout}
