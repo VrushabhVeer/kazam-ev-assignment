@@ -68,7 +68,7 @@ const Tasks = () => {
         <h1 className="text-2xl md:text-3xl font-bold">Tasks</h1>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="bg-[#6261fd] text-white font-medium px-6 py-2 rounded-md"
+          className="bg-[#6261fd] hover:bg-[#4e4efa] text-white font-medium px-6 py-2 rounded-md"
         >
           New Task +
         </button>
@@ -88,7 +88,7 @@ const Tasks = () => {
           className={`px-4 py-2 rounded-md text-sm font-medium ${
             currentPage === 1
               ? "bg-gray-300 cursor-not-allowed"
-              : "bg-[#6261fd] text-white hover:bg-[#4a49cc]"
+              : "bg-[#6261fd] text-white hover:bg-[#4e4efa]"
           }`}
         >
           Prev
@@ -104,7 +104,7 @@ const Tasks = () => {
           className={`px-4 py-2 rounded-md text-sm font-medium ${
             currentPage === Math.ceil(tasks.length / tasksPerPage)
               ? "bg-gray-300 cursor-not-allowed"
-              : "bg-[#6261fd] text-white hover:bg-[#4a49cc]"
+              : "bg-[#6261fd] text-white hover:bg-[#4e4efa]"
           }`}
         >
           Next

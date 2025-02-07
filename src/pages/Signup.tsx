@@ -8,17 +8,17 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     const payload = {
       name,
       email,
       password,
     };
-    e.preventDefault();
-    setLoading(true);
+
     try {
       const response = await axios.post(
         "https://kazam-ev-backend.vercel.app/user/signup",
@@ -34,8 +34,6 @@ const Signup = () => {
       } else {
         toast.error("An unexpected error occurred");
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -89,10 +87,9 @@ const Signup = () => {
           </div>
           <button
             type="submit"
-            className="w-full p-2 bg-[#6261fd] text-white font-medium rounded-md"
-            disabled={loading}
+            className="w-full p-2 bg-[#6261fd] hover:bg-[#4e4efa] text-white font-medium rounded-md"
           >
-            {loading ? "Signing Up..." : "Sign Up"}
+            Sign Up
           </button>
         </form>
         <p className="text-sm text-center mt-4">
