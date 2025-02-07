@@ -33,11 +33,7 @@ const Tasks = () => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
-      const sortedTasks = response.data.tasks.sort(
-        (a: Task, b: Task) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      );
-      setTasks(sortedTasks);
+      setTasks(response.data);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }

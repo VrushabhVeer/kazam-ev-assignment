@@ -74,8 +74,8 @@ const TaskList = ({
       );
 
       toast.success(response.data.message);
-      fetchTasks(); // Refresh the task list
-      setIsDeleteModalOpen(false); // Close modal
+      fetchTasks();
+      setIsDeleteModalOpen(false);
       setTaskToDelete(null);
     } catch (error) {
       console.error("Error deleting task:", error);
@@ -92,62 +92,67 @@ const TaskList = ({
           </p>
         </div>
       ) : (
-        tasks.map((task) => (
-          <div
-            key={task._id}
-            className="border mt-1 border-gray-100 py-3 px-5 shadow-sm rounded-md hover:shadow-lg bg-white"
-          >
-            <div>
-              <p className="font-medium">{task.title}</p>
-              <p className="text-gray-600 text-sm">{task.description}</p>
-            </div>
-
-            <div className="flex items-center justify-between mt-3">
-              <div className="flex items-center space-x-2">
-                <img
-                  className="w-5"
-                  src={calendarIcon}
-                  alt="calendar-icon"
-                  loading="lazy"
-                />
-
-                <p className="text-gray-600 text-[13px]">
-                  {new Date(task.createdAt).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })}
-                </p>
+        [...tasks]
+          .sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+          .map((task) => (
+            <div
+              key={task._id}
+              className="border mt-1 border-gray-100 py-3 px-5 shadow-sm rounded-md hover:shadow-lg bg-white"
+            >
+              <div>
+                <p className="font-medium">{task.title}</p>
+                <p className="text-gray-600 text-sm">{task.description}</p>
               </div>
-              <div className="flex items-center space-x-5">
-                <button onClick={() => onEdit(task)}>
+
+              <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center space-x-2">
                   <img
                     className="w-5"
-                    src={editIcon}
-                    alt="edit-icon"
+                    src={calendarIcon}
+                    alt="calendar-icon"
                     loading="lazy"
                   />
-                </button>
-                <button onClick={() => handleDeleteClick(task)}>
-                  <img
-                    className="w-6"
-                    src={deleteIcon}
-                    alt="delete-icon"
-                    loading="lazy"
-                  />
-                </button>
-                <button onClick={() => handleMarkCompleted(task)}>
-                  <img
-                    className="w-5"
-                    src={task.completed === false ? pendingIcon : checkedIcon}
-                    alt="checked-icon"
-                    loading="lazy"
-                  />
-                </button>
+
+                  <p className="text-gray-600 text-[13px]">
+                    {new Date(task.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+                <div className="flex items-center space-x-5">
+                  <button onClick={() => onEdit(task)}>
+                    <img
+                      className="w-5"
+                      src={editIcon}
+                      alt="edit-icon"
+                      loading="lazy"
+                    />
+                  </button>
+                  <button onClick={() => handleDeleteClick(task)}>
+                    <img
+                      className="w-6"
+                      src={deleteIcon}
+                      alt="delete-icon"
+                      loading="lazy"
+                    />
+                  </button>
+                  <button onClick={() => handleMarkCompleted(task)}>
+                    <img
+                      className="w-5"
+                      src={task.completed === false ? pendingIcon : checkedIcon}
+                      alt="checked-icon"
+                      loading="lazy"
+                    />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          ))
       )}
 
       <Modal
