@@ -104,7 +104,7 @@ const TaskList = ({
             >
               <div>
                 <p className="font-medium">{task.title}</p>
-                <p className="text-gray-600 text-sm">{task.description}</p>
+                <pre className="text-gray-600 text-sm">{task.description}</pre>
               </div>
 
               <div className="flex items-center justify-between mt-3">
